@@ -1,0 +1,15 @@
+{
+  "name": "gendiff",
+  "version": "1.0.0",
+  "description": "My 2nd project on Hexlet.io",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "difference",
+    "generator"
+  ],
+  "author": "Aleksandr Dargeev",
+  "license": "ISC"
+}
