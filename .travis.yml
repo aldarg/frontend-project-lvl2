@@ -5,5 +5,5 @@ node_js:
   - node
 
 script:
-  make lint
-  make test
+  - make lint
+  - make test
