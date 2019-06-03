@@ -8,8 +8,8 @@ This is my second project on Hexlet.io
 
 ## Install guide
 
-[![asciicast](https://asciinema.org/a/FqaaOT5V8JBOMossBIeEvveoh.svg)](https://asciinema.org/a/FqaaOT5V8JBOMossBIeEvveoh)
+[![asciicast](https://asciinema.org/a/9sp5vAPhYMLJA5ygdAoD6OSBc.svg)](https://asciinema.org/a/9sp5vAPhYMLJA5ygdAoD6OSBc)
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/lY81sMqBQ3Xh6qyaTYektEby1.svg)](https://asciinema.org/a/lY81sMqBQ3Xh6qyaTYektEby1)
+[![asciicast](https://asciinema.org/a/xZEdIyho318sqTsjeWwZke90g.svg)](https://asciinema.org/a/xZEdIyho318sqTsjeWwZke90g)
