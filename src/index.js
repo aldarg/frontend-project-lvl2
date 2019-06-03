@@ -1,7 +1,5 @@
-import { readFileSync } from 'fs';
 import _ from 'lodash';
-
-const getConfig = configFilePath => JSON.parse(readFileSync(configFilePath));
+import getConfig from './parsers';
 
 export default (firstConfigFilePath, secondConfigFilePath) => {
   const firstConfig = getConfig(firstConfigFilePath);
