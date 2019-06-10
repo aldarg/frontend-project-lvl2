@@ -1,37 +1,51 @@
-import _ from 'lodash';
 import getConfig from './parsers';
+import render from './renderers';
+
+const parseConfigs = (configBefore, configAfter) => {
+  const mergedConfig = { ...configBefore, ...configAfter };
+
+  const keys = Object.keys(mergedConfig);
+  const result = keys.map((key) => {
+    const valueBefore = configBefore[key];
+    const valueAfter = configAfter[key];
+
+    if (typeof valueBefore === 'object' && typeof valueAfter === 'object') {
+      return {
+        type: 'group', key, children: parseConfigs(valueBefore, valueAfter),
+      };
+    }
+
+    if (valueBefore === valueAfter) {
+      return {
+        type: 'unchanged', key, data: [valueBefore],
+      };
+    }
+
+    if (valueBefore === undefined) {
+      return {
+        type: 'added', key, data: [valueAfter],
+      };
+    }
+
+    if (valueAfter === undefined) {
+      return {
+        type: 'deleted', key, data: [valueBefore],
+      };
+    }
+
+    return {
+      type: 'changed', key, data: [valueBefore, valueAfter],
+    };
+  });
+
+  return result;
+};
 
 export default (firstConfigFilePath, secondConfigFilePath) => {
-  const firstConfig = getConfig(firstConfigFilePath);
-  const secondConfig = getConfig(secondConfigFilePath);
+  const configBefore = getConfig(firstConfigFilePath);
+  const configAfter = getConfig(secondConfigFilePath);
 
-  const getDiffString = (key) => {
-    const hasFirstConfig = _.has(firstConfig, key);
-    const hasSecondConfig = _.has(secondConfig, key);
+  const ast = parseConfigs(configBefore, configAfter);
 
-    if (hasFirstConfig && !hasSecondConfig) {
-      return `  - ${key}: ${firstConfig[key]}`;
-    }
-
-    if (!hasFirstConfig && hasSecondConfig) {
-      return `  + ${key}: ${secondConfig[key]}`;
-    }
-
-    if (secondConfig[key] !== firstConfig[key]) {
-      const diffPlus = `  + ${key}: ${secondConfig[key]}`;
-      const diffMinus = `  - ${key}: ${firstConfig[key]}`;
-
-      return `${diffPlus}\n${diffMinus}`;
-    }
-
-    return `    ${key}: ${firstConfig[key]}`;
-  };
-
-  const mergedConfig = { ...firstConfig, ...secondConfig };
-
-  const differences = Object.entries(mergedConfig).map(entry => getDiffString(entry[0]));
-  differences.unshift('{');
-  differences.push('}');
-
-  return differences.join('\n');
+  return render(ast);
 };
