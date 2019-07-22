@@ -1,7 +1,7 @@
-import getConfig from './parsers';
+import parseConfig from './parsers';
 import render from './renderers';
 
-const parseConfigs = (configBefore, configAfter) => {
+const makeDiffAst = (configBefore, configAfter) => {
   const mergedConfig = { ...configBefore, ...configAfter };
 
   const keys = Object.keys(mergedConfig);
@@ -11,7 +11,7 @@ const parseConfigs = (configBefore, configAfter) => {
 
     if (typeof valueBefore === 'object' && typeof valueAfter === 'object') {
       return {
-        type: 'group', key, children: parseConfigs(valueBefore, valueAfter),
+        type: 'group', key, children: makeDiffAst(valueBefore, valueAfter),
       };
     }
 
@@ -41,11 +41,11 @@ const parseConfigs = (configBefore, configAfter) => {
   return result;
 };
 
-export default (firstConfigFilePath, secondConfigFilePath) => {
-  const configBefore = getConfig(firstConfigFilePath);
-  const configAfter = getConfig(secondConfigFilePath);
+export default (firstConfigFilePath, secondConfigFilePath, format = 'common') => {
+  const configBefore = parseConfig(firstConfigFilePath);
+  const configAfter = parseConfig(secondConfigFilePath);
 
-  const ast = parseConfigs(configBefore, configAfter);
+  const ast = makeDiffAst(configBefore, configAfter);
 
-  return render(ast);
+  return render(ast, format);
 };
