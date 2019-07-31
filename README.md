@@ -9,8 +9,8 @@ This is my second project on Hexlet.io
 
 ## Install guide
 
-[![asciicast](https://asciinema.org/a/9sp5vAPhYMLJA5ygdAoD6OSBc.svg)](https://asciinema.org/a/9sp5vAPhYMLJA5ygdAoD6OSBc)
+[![asciicast](https://asciinema.org/a/xql0EZepgbeTevgQ99LCA5jo2.svg)](https://asciinema.org/a/xql0EZepgbeTevgQ99LCA5jo2)
 
 ## Demo
 
-[![asciicast](https://asciinema.org/a/xZEdIyho318sqTsjeWwZke90g.svg)](https://asciinema.org/a/xZEdIyho318sqTsjeWwZke90g)
+[![asciicast](https://asciinema.org/a/P3HYLzP8h7T8M0x3W05YBOORh.svg)](https://asciinema.org/a/P3HYLzP8h7T8M0x3W05YBOORh)
