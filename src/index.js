@@ -5,7 +5,7 @@ const makeDiffAst = (configBefore, configAfter) => {
   const mergedConfig = { ...configBefore, ...configAfter };
 
   const keys = Object.keys(mergedConfig);
-  const result = keys.map((key) => {
+  const ast = keys.map((key) => {
     const valueBefore = configBefore[key];
     const valueAfter = configAfter[key];
 
@@ -38,12 +38,12 @@ const makeDiffAst = (configBefore, configAfter) => {
     };
   });
 
-  return result;
+  return ast;
 };
 
-export default (firstConfigFilePath, secondConfigFilePath, format = 'common') => {
-  const configBefore = parseConfig(firstConfigFilePath);
-  const configAfter = parseConfig(secondConfigFilePath);
+export default (configBeforeFilePath, configAfterFilePath, format = 'default') => {
+  const configBefore = parseConfig(configBeforeFilePath);
+  const configAfter = parseConfig(configAfterFilePath);
 
   const ast = makeDiffAst(configBefore, configAfter);
 

@@ -17,3 +17,8 @@ test('gendiff-json-plain', () => {
   const result = readFileSync(`${path}result.json.plain.txt`, 'utf8');
   expect(gendiff(`${path}json/before.json`, `${path}json/after.json`, 'plain')).toBe(result);
 });
+
+test('gendiff-json-json', () => {
+  const result = readFileSync(`${path}result.json.json.txt`, 'utf8');
+  expect(gendiff(`${path}json/before.json`, `${path}json/after.json`, 'json')).toBe(result);
+});
