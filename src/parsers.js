@@ -1,6 +1,4 @@
-import { extname } from 'path';
 import { safeLoad } from 'js-yaml';
-import { readFileSync } from 'fs';
 import { decode } from 'ini';
 
 const parser = {
@@ -9,9 +7,4 @@ const parser = {
   ini: decode,
 };
 
-export default (filePath) => {
-  const fileExtension = extname(filePath).replace('.', '');
-  const content = readFileSync(filePath, 'utf-8');
-
-  return parser[fileExtension](content);
-};
+export default (data, format) => parser[format](data);

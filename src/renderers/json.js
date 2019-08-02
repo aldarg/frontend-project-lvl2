@@ -28,6 +28,7 @@ const renderAst = (node, path = '') => {
   if (type === 'changed') {
     [jsonNode.oldValue, jsonNode.newValue] = data;
   }
+
   return jsonNode;
 };
 

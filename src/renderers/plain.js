@@ -36,5 +36,6 @@ const getLines = (node, keyPrefix = '') => {
 
 export default (ast) => {
   const differences = ast.map(node => getLines(node));
+
   return _.flattenDeep(differences).join('\n');
 };

@@ -2,13 +2,17 @@ import _ from 'lodash';
 
 const stringify = (tab, sign, key, value) => {
   if (typeof value === 'object') {
-    const result = [];
+    const head = `${tab}${sign} ${key}: {`;
+    const tail = `  ${tab}}`;
 
-    result.push(`${tab}${sign} ${key}: {`);
-    Object.entries(value).forEach(([entryKey, entryValue]) => result.push(`      ${tab}${entryKey}: ${entryValue}`));
-    result.push(`  ${tab}}`);
+    const entries = Object.entries(value);
+    const result = entries.reduce((acc, [entryKey, entryValue]) => {
+      acc.push(`      ${tab}${entryKey}: ${entryValue}`);
 
-    return result;
+      return acc;
+    }, []);
+
+    return _.concat(head, result, tail);
   }
 
   return `${tab}${sign} ${key}: ${value}`;
@@ -55,13 +59,13 @@ const getLines = (ast, depth = 0) => {
     return acc;
   }, []);
 
-  return lines;
+  const result = (depth === 0) ? _.concat('{', lines, '}') : lines;
+
+  return result;
 };
 
 export default (ast) => {
   const differences = getLines(ast);
-  differences.unshift('{');
-  differences.push('}');
 
   return _.flattenDeep(differences).join('\n');
 };
