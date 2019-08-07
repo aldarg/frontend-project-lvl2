@@ -1,37 +1,22 @@
 import _ from 'lodash';
 
+const stringify = value => ((typeof value === 'object') ? '[complex object]' : value);
+
+const getLine = {
+  group: (pathedKey, node, func) => node.children.map(childNode => func(childNode, `${pathedKey}.`)),
+  unchanged: pathedKey => `Property '${pathedKey}' was unchanged`,
+  added: (pathedKey, node) => `Property '${pathedKey}' was added with value: ${stringify(node.value)}`,
+  deleted: pathedKey => `Property '${pathedKey}' was removed`,
+  changed: (pathedKey, node) => `Property '${pathedKey}' was updated. From ${stringify(node.valueBefore)} to ${stringify(node.valueAfter)}`,
+};
+
 const getLines = (node, keyPrefix = '') => {
   const {
     type,
     key,
-    children,
-    data,
   } = node;
 
-  const pathedKey = `${keyPrefix}${key}`;
-
-  if (type === 'group') {
-    return children.map(childNode => getLines(childNode, `${pathedKey}.`));
-  }
-
-  if (type === 'unchanged') {
-    return `Property '${pathedKey}' was unchanged`;
-  }
-
-  if (type === 'added') {
-    const value = (typeof data[0] === 'object') ? '[complex object]' : data[0];
-
-    return `Property '${pathedKey}' was added with value: ${value}`;
-  }
-
-  if (type === 'deleted') {
-    return `Property '${pathedKey}' was removed`;
-  }
-
-  const valueBefore = (typeof data[0] === 'object') ? '[complex object]' : data[0];
-  const valueAfter = (typeof data[1] === 'object') ? '[complex object]' : data[1];
-
-  return `Property '${pathedKey}' was updated. From ${valueBefore} to ${valueAfter}`;
+  return getLine[type](`${keyPrefix}${key}`, node, getLines);
 };
 
 export default (ast) => {

@@ -3,7 +3,7 @@ import readFile from './utils/file-reader';
 import parseConfig from './parsers';
 import render from './renderers';
 
-const unionKeys = (obj1, obj2) => Object.keys({ ...obj1, ...obj2 });
+const unionKeys = (obj1, obj2) => _.union(_.keys(obj1), _.keys(obj2));
 
 const makeDiffAst = (configBefore, configAfter) => {
   const keys = unionKeys(configBefore, configAfter);
@@ -20,24 +20,24 @@ const makeDiffAst = (configBefore, configAfter) => {
 
     if (valueBefore === valueAfter) {
       return {
-        type: 'unchanged', key, data: [valueBefore],
+        type: 'unchanged', key, value: valueBefore,
       };
     }
 
     if (!_.has(configBefore, key)) {
       return {
-        type: 'added', key, data: [valueAfter],
+        type: 'added', key, value: valueAfter,
       };
     }
 
     if (!_.has(configAfter, key)) {
       return {
-        type: 'deleted', key, data: [valueBefore],
+        type: 'deleted', key, value: valueBefore,
       };
     }
 
     return {
-      type: 'changed', key, data: [valueBefore, valueAfter],
+      type: 'changed', key, valueBefore, valueAfter,
     };
   });
 
