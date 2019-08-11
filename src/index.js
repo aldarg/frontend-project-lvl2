@@ -9,8 +9,20 @@ const makeDiffAst = (configBefore, configAfter) => {
   const keys = unionKeys(configBefore, configAfter);
 
   const ast = keys.map((key) => {
-    const valueBefore = configBefore[key];
+    if (!_.has(configBefore, key)) {
+      return {
+        type: 'added', key, value: configAfter[key],
+      };
+    }
+
+    if (!_.has(configAfter, key)) {
+      return {
+        type: 'deleted', key, value: configBefore[key],
+      };
+    }
+
     const valueAfter = configAfter[key];
+    const valueBefore = configBefore[key];
 
     if (typeof valueBefore === 'object' && typeof valueAfter === 'object') {
       return {
@@ -21,18 +33,6 @@ const makeDiffAst = (configBefore, configAfter) => {
     if (valueBefore === valueAfter) {
       return {
         type: 'unchanged', key, value: valueBefore,
-      };
-    }
-
-    if (!_.has(configBefore, key)) {
-      return {
-        type: 'added', key, value: valueAfter,
-      };
-    }
-
-    if (!_.has(configAfter, key)) {
-      return {
-        type: 'deleted', key, value: valueBefore,
       };
     }
 

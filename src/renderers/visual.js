@@ -9,11 +9,7 @@ const stringify = (tab, sign, key, value) => {
   const tail = `  ${tab}}`;
 
   const entries = Object.entries(value);
-  const body = entries.reduce((acc, [entryKey, entryValue]) => {
-    acc.push(`      ${tab}${entryKey}: ${entryValue}`);
-
-    return acc;
-  }, []);
+  const body = entries.map(([entryKey, entryValue]) => `      ${tab}${entryKey}: ${entryValue}`);
 
   return _.concat(head, body, tail);
 };
@@ -34,9 +30,9 @@ const getLines = (ast, depth = 0) => {
     } = node;
 
     const tab = ' '.repeat(depth * 4 + 2);
-    acc.push(getLine[type](tab, key, node, getLines, depth));
+    const newLine = getLine[type](tab, key, node, getLines, depth);
 
-    return acc;
+    return _.concat(acc, newLine);
   }, []);
 
   const result = (depth === 0) ? _.concat('{', lines, '}') : lines;
