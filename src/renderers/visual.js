@@ -23,16 +23,15 @@ const getLine = {
 };
 
 const getLines = (ast, depth = 0) => {
-  const lines = ast.reduce((acc, node) => {
+  const lines = ast.map((node) => {
     const {
       type,
       key,
     } = node;
 
     const tab = ' '.repeat(depth * 4 + 2);
-    const newLine = getLine[type](tab, key, node, getLines, depth);
 
-    return _.concat(acc, newLine);
+    return getLine[type](tab, key, node, getLines, depth);
   }, []);
 
   const result = (depth === 0) ? _.concat('{', lines, '}') : lines;
